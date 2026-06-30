@@ -49,7 +49,7 @@ export default function RootLayout({
               </Link>
               <nav className="nav-links" aria-label="Primary">
                 <Link href="/blog">Writing</Link>
-                <Link href="/resume">Resume</Link>
+                <a href="https://www.linkedin.com/in/lyashok/">Resume</a>
                 <Link href="/about">About</Link>
               </nav>
             </div>

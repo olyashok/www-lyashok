@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import {
@@ -41,12 +41,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ContentPage({ params }: PageProps) {
   const { slug = [] } = await params
+  if (slug.length === 1 && slug[0] === 'resume') {
+    redirect('https://www.linkedin.com/in/lyashok/')
+  }
+
   const entry = await getEntryBySlug(slug)
   if (!entry) notFound()
 
   const entries = slug.length === 0 ? await listEntries() : []
   const recent = entries
-    .filter((item) => item.slug.length > 0)
+    .filter((item) => item.slug.length > 0 && !isHiddenFromHome(item))
     .sort(sortByDate)
     .slice(0, 8)
 
@@ -72,6 +76,11 @@ export default async function ContentPage({ params }: PageProps) {
       )}
     </article>
   )
+}
+
+function isHiddenFromHome(entry: ContentEntry): boolean {
+  const path = slugToPath(entry.slug)
+  return path === '/privacy' || path === '/resume'
 }
 
 function sortByDate(a: ContentEntry, b: ContentEntry): number {
