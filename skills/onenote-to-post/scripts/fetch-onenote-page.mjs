@@ -66,18 +66,28 @@ async function getToken() {
 function parseOneNoteUrl(sourceUrl) {
   const decoded = decodeURIComponent(sourceUrl)
   const wdpart = decoded.match(/wdpartid=\{([0-9a-f-]{36})\}\{(\d+)\}/i)
+  const sectionGuid = decoded.match(/section-id=\{?([0-9a-f-]{36})\}?/i)
   const pageGuid = decoded.match(/page-id=\{?([0-9a-f-]{36})\}?/i)
   const target = decoded.match(/wd=target\(([^)]*)\)/i)
+  let targetSectionName = ''
   let targetTitle = ''
   if (target) {
     const parts = target[1].split('|')
+    const sectionPart = parts[0] || ''
     const titlePart = parts[2] || ''
+    targetSectionName = sectionPart
+      .split('/')
+      .pop()
+      ?.replace(/\.one$/i, '')
+      .trim() ?? ''
     targetTitle = titlePart.replace(/\\\|/g, '|').trim()
   }
   return {
     graphPartGuid: wdpart?.[1]?.replace(/-/g, '').toLowerCase() ?? '',
     graphPartNumber: wdpart?.[2] ?? '',
+    sectionGuid: sectionGuid?.[1]?.replace(/-/g, '').toLowerCase() ?? '',
     pageGuid: pageGuid?.[1]?.replace(/-/g, '').toLowerCase() ?? '',
+    targetSectionName,
     targetTitle,
   }
 }
@@ -97,12 +107,45 @@ async function graphFetch(token, url, options = {}) {
   return res
 }
 
-async function listPages(token) {
-  const pages = []
+async function listSections(token) {
+  const sections = []
   let next =
-    `${GRAPH_ROOT}/me/onenote/pages` +
-    '?$select=id,title,createdDateTime,lastModifiedDateTime,links' +
+    `${GRAPH_ROOT}/me/onenote/sections` +
+    '?$select=id,displayName' +
     '&$top=100'
+  while (next) {
+    const json = await graphFetch(token, next).then((res) => res.json())
+    sections.push(...(json.value ?? []))
+    next = json['@odata.nextLink'] ?? ''
+  }
+  return sections
+}
+
+function findSection(sections, parsed) {
+  if (parsed.sectionGuid) {
+    const found = sections.find((section) =>
+      section.id.toLowerCase().includes(parsed.sectionGuid),
+    )
+    if (found) return found
+  }
+
+  if (parsed.targetSectionName) {
+    const normalizedName = parsed.targetSectionName.toLowerCase()
+    const found = sections.find((section) =>
+      section.displayName?.toLowerCase() === normalizedName,
+    )
+    if (found) return found
+  }
+
+  return null
+}
+
+async function listPages(token, sectionId = '') {
+  const pages = []
+  const base = sectionId
+    ? `${GRAPH_ROOT}/me/onenote/sections/${encodeURIComponent(sectionId)}/pages`
+    : `${GRAPH_ROOT}/me/onenote/pages`
+  let next = `${base}?$select=id,title,createdDateTime,lastModifiedDateTime,links&$top=100`
   while (next) {
     const json = await graphFetch(token, next).then((res) => res.json())
     pages.push(...(json.value ?? []))
@@ -112,6 +155,11 @@ async function listPages(token) {
 }
 
 function findPage(pages, parsed) {
+  if (parsed.pageGuid) {
+    const found = pages.find((page) => page.id.toLowerCase().includes(parsed.pageGuid))
+    if (found) return found
+  }
+
   if (parsed.graphPartGuid) {
     const found = pages.find((page) => {
       const id = page.id.toLowerCase()
@@ -154,9 +202,18 @@ function extensionFromContentType(contentType) {
   return '.bin'
 }
 
-function kindFromContentType(contentType) {
+function extensionFromBytes(body) {
+  if (body.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return '.png'
+  if (body.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff]))) return '.jpg'
+  if (body.subarray(0, 4).toString('ascii') === '%PDF') return '.pdf'
+  if (body.subarray(0, 4).toString('ascii') === 'PK\u0003\u0004') return '.zip'
+  return ''
+}
+
+function kindFromContentType(contentType, fileName) {
   if (contentType.startsWith('image/')) return 'image'
-  if (contentType.includes('application/pdf')) return 'pdf'
+  if (contentType.includes('application/pdf') || fileName.endsWith('.pdf')) return 'pdf'
+  if (fileName.match(/\.(png|jpe?g|gif|webp|svg)$/i)) return 'image'
   return 'attachment'
 }
 
@@ -165,7 +222,7 @@ async function downloadResources(token, html, outDir) {
   await fs.mkdir(resourcesDir, { recursive: true })
   const urls = [
     ...new Set(
-      [...html.matchAll(/https:\/\/graph\.microsoft\.com\/v1\.0\/[^"' <)]+\/onenote\/resources\/[^"' <)]+\/\$value/g)]
+      [...html.matchAll(/https:\/\/graph\.microsoft\.com\/v1\.0\/[^"]+?\/onenote\/resources\/[^"]+?\/\$value/g)]
         .map((match) => match[0].replace(/&amp;/g, '&')),
     ),
   ]
@@ -175,16 +232,18 @@ async function downloadResources(token, html, outDir) {
     const url = urls[i]
     const res = await graphFetch(token, url)
     const contentType = res.headers.get('content-type') ?? 'application/octet-stream'
-    const ext = extensionFromContentType(contentType)
+    const body = Buffer.from(await res.arrayBuffer())
+    const ext = extensionFromContentType(contentType) === '.bin'
+      ? extensionFromBytes(body) || '.bin'
+      : extensionFromContentType(contentType)
     const fileName = `resource-${String(i + 1).padStart(2, '0')}${ext}`
     const filePath = path.join(resourcesDir, fileName)
-    const body = Buffer.from(await res.arrayBuffer())
     await fs.writeFile(filePath, body)
     resources.push({
       sourceUrl: url,
       fileName,
       contentType,
-      kind: kindFromContentType(contentType),
+      kind: kindFromContentType(contentType, fileName),
       bytes: body.length,
     })
   }
@@ -195,7 +254,9 @@ async function main() {
   const args = parseArgs(process.argv.slice(2))
   const token = await getToken()
   const parsed = parseOneNoteUrl(args.url)
-  const pages = await listPages(token)
+  const sections = await listSections(token)
+  const section = findSection(sections, parsed)
+  const pages = await listPages(token, section?.id)
   const page = findPage(pages, parsed)
   const contentUrl = `${GRAPH_ROOT}/me/onenote/pages/${encodeURIComponent(page.id)}/content?includeIDs=true`
   const html = await graphFetch(token, contentUrl).then((res) => res.text())
