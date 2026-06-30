@@ -39,6 +39,25 @@ draft: false
 
 Drafts are hidden in production.
 
+Article-owned media should be colocated with the markdown file and referenced with
+relative paths:
+
+```text
+content/blog/example/index.md
+content/blog/example/cover.jpg
+```
+
+```md
+![Caption](./cover.jpg)
+```
+
+The app serves these through `/content-assets/...`.
+
+## Skills
+
+Repo-local skills live under `skills/`. Use `skills/onenote-to-post` when a
+OneNote or OneDrive OneNote link should become a local post/page.
+
 ## Analytics
 
 GA4 is loaded only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set. Analytics cookies are gated behind the in-repo Klaro consent banner copied from the Shape site pattern.

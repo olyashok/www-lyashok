@@ -1,0 +1,4 @@
+interface:
+  display_name: "OneNote to Post"
+  short_description: "Convert OneNote links into local website posts."
+  default_prompt: "Convert this OneNote link into a local lyashok.com post."
