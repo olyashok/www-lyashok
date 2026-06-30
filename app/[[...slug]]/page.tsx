@@ -81,7 +81,7 @@ export default async function ContentPage({ params }: PageProps) {
         : item.slug.length > 0 && !isHiddenFromHome(item),
     )
     .sort(sortByDate)
-  const recent = isWritingIndex ? listedEntries.slice(0, 6) : listedEntries.slice(0, 8)
+  const recent = isWritingIndex ? listedEntries.slice(0, 5) : listedEntries.slice(0, 8)
   const writingItems = (isWritingIndex || isWritingAll)
     ? listedEntries.map(toWritingListItem)
     : recent.map(toWritingListItem)
@@ -128,7 +128,7 @@ export default async function ContentPage({ params }: PageProps) {
       {writingItems.length > 0 && (
         <WritingList
           allHref={isWritingIndex ? '/blog/all' : undefined}
-          initialCount={isWritingIndex ? 6 : undefined}
+          initialCount={isWritingIndex ? 5 : undefined}
           items={writingItems}
           mode={isWritingAll ? 'infinite' : 'static'}
         />
