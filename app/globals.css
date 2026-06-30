@@ -244,14 +244,52 @@ h1 {
   text-decoration: none;
 }
 
-.entry-thumb-placeholder::before {
-  position: absolute;
-  inset: 0;
+.thumb-placeholder {
   background:
-    linear-gradient(135deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
-    linear-gradient(45deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
-    #f1eee7;
+    linear-gradient(135deg, color-mix(in srgb, var(--thumb-bg) 88%, #ffffff), var(--thumb-bg)),
+    #f3eee4;
+  isolation: isolate;
+}
+
+.thumb-placeholder::before,
+.thumb-placeholder::after {
+  position: absolute;
   content: "";
+}
+
+.thumb-placeholder::before {
+  inset: 14%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--thumb-shape) 82%, transparent);
+  transform: rotate(-12deg);
+}
+
+.thumb-placeholder::after {
+  right: 13%;
+  bottom: 13%;
+  width: 28%;
+  aspect-ratio: 1;
+  border: 10px solid color-mix(in srgb, var(--thumb-ring) 78%, transparent);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.thumb-placeholder-0 {
+  --thumb-bg: #efe8dc;
+  --thumb-ring: #d96d4f;
+  --thumb-shape: #1f6f68;
+}
+
+.thumb-placeholder-1 {
+  --thumb-bg: #e4ece4;
+  --thumb-ring: #c29a3d;
+  --thumb-shape: #5a7d9a;
+}
+
+.thumb-placeholder-2 {
+  --thumb-bg: #ece6e2;
+  --thumb-ring: #8d7462;
+  --thumb-shape: #b5525a;
 }
 
 .entry-thumb img {
@@ -356,16 +394,6 @@ h1 {
   overflow: hidden;
   aspect-ratio: 4 / 3;
   background: #f1eee7;
-}
-
-.card-thumb-placeholder::before {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(135deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
-    linear-gradient(45deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
-    #f1eee7;
-  content: "";
 }
 
 .card-thumb img {

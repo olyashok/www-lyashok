@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { thumbPlaceholderClass } from '@/lib/thumb-placeholder'
 
 export interface WritingListItem {
   path: string
@@ -61,7 +62,9 @@ export function WritingList({
                 <Image src={item.image} alt="" fill sizes="112px" />
               </a>
             ) : (
-              <span className="entry-thumb entry-thumb-placeholder" />
+              <span
+                className={`entry-thumb entry-thumb-placeholder ${thumbPlaceholderClass(item.path)}`}
+              />
             )}
             <div className="entry-copy">
               {item.date && (

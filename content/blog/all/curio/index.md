@@ -1,0 +1,4 @@
+---
+title: "Curio"
+type: page
+---

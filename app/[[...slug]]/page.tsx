@@ -10,9 +10,12 @@ import {
   slugToPath,
   type ContentEntry,
 } from '@/lib/content'
+import { thumbPlaceholderClass } from '@/lib/thumb-placeholder'
 import { WritingList, type WritingListItem } from '@/components/writing-list'
 
-const CURIO_WORDS_PATH = '/curio/words-having-no-translation-to-english'
+const CATEGORY_PREVIEW_COUNT = 5
+
+type WritingCategory = 'ai' | 'curio'
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>
@@ -65,6 +68,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ContentPage({ params }: PageProps) {
   const { slug = [] } = await params
+  const category = getWritingCategoryFromSlug(slug)
   if (slug.length === 1 && slug[0] === 'resume') {
     redirect('https://www.linkedin.com/in/lyashok/')
   }
@@ -77,10 +81,14 @@ export default async function ContentPage({ params }: PageProps) {
   const isWritingAll = isBlogAll(slug)
   const entries =
     slug.length === 0 || isWritingIndex || isWritingAll ? await listEntries() : []
+  const writingEntries = entries.filter(hasWritingCategory).sort(sortByDate)
+  const writingCategoryItems = toWritingCategoryItems(writingEntries)
   const listedEntries = entries
     .filter((item) =>
-      isWritingIndex || isWritingAll
-        ? isBlogPost(item)
+      isWritingIndex
+        ? hasWritingCategory(item)
+        : isWritingAll
+          ? matchesWritingCategory(item, category)
         : item.slug.length > 0 && !isHiddenFromHome(item),
     )
     .sort(sortByDate)
@@ -129,7 +137,10 @@ export default async function ContentPage({ params }: PageProps) {
         </div>
       )}
       {isWritingIndex && writingItems.length > 0 && (
-        <WritingCategorySections items={writingItems} />
+        <WritingCategorySections
+          aiItems={writingCategoryItems.ai}
+          curioItems={writingCategoryItems.curio}
+        />
       )}
       {!isWritingIndex && writingItems.length > 0 && (
         <WritingList
@@ -141,40 +152,56 @@ export default async function ContentPage({ params }: PageProps) {
   )
 }
 
-function WritingCategorySections({ items }: { items: WritingListItem[] }) {
+function WritingCategorySections({
+  aiItems,
+  curioItems,
+}: {
+  aiItems: WritingListItem[]
+  curioItems: WritingListItem[]
+}) {
   return (
     <div className="writing-sections">
-      <section className="writing-section" aria-labelledby="ai-writing">
-        <div className="section-heading">
-          <h2 id="ai-writing">AI</h2>
-          <Link href="/blog/all">All writing</Link>
-        </div>
-        <div className="card-grid">
-          {items.map((item) => (
-            <WritingCard item={item} key={item.path} />
-          ))}
-        </div>
-      </section>
-      <section className="writing-section" aria-labelledby="curio-writing">
-        <div className="section-heading">
-          <h2 id="curio-writing">Curio</h2>
-        </div>
-        <div className="card-grid">
-          <Link className="writing-card" href={CURIO_WORDS_PATH}>
-            <span className="card-thumb card-thumb-placeholder" />
-            <span className="card-copy">
-              <span className="card-title">
-                Words having no translation to English
-              </span>
-              <span className="card-summary">
-                A small collection of words and phrases that do not map cleanly
-                into English.
-              </span>
-            </span>
-          </Link>
-        </div>
-      </section>
+      <WritingCategorySection
+        allHref="/blog/all/ai"
+        items={aiItems}
+        label="AI"
+        sectionId="ai-writing"
+      />
+      <WritingCategorySection
+        allHref="/blog/all/curio"
+        items={curioItems}
+        label="Curio"
+        sectionId="curio-writing"
+      />
     </div>
+  )
+}
+
+function WritingCategorySection({
+  allHref,
+  items,
+  label,
+  sectionId,
+}: {
+  allHref: string
+  items: WritingListItem[]
+  label: string
+  sectionId: string
+}) {
+  if (items.length === 0) return null
+
+  return (
+    <section className="writing-section" aria-labelledby={sectionId}>
+      <div className="section-heading">
+        <h2 id={sectionId}>{label}</h2>
+        <Link href={allHref}>See all writing on {label} &gt;</Link>
+      </div>
+      <div className="card-grid">
+        {items.slice(0, CATEGORY_PREVIEW_COUNT).map((item) => (
+          <WritingCard item={item} key={item.path} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -186,7 +213,9 @@ function WritingCard({ item }: { item: WritingListItem }) {
           <Image src={item.image} alt="" fill sizes="(max-width: 640px) 100vw, 220px" />
         </span>
       ) : (
-        <span className="card-thumb card-thumb-placeholder" />
+        <span
+          className={`card-thumb card-thumb-placeholder ${thumbPlaceholderClass(item.path)}`}
+        />
       )}
       <span className="card-copy">
         {item.date && (
@@ -209,9 +238,25 @@ function toWritingListItem(entry: ContentEntry): WritingListItem {
   }
 }
 
+function toWritingCategoryItems(
+  entries: ContentEntry[],
+): Record<WritingCategory, WritingListItem[]> {
+  const items: Record<WritingCategory, WritingListItem[]> = {
+    ai: [],
+    curio: [],
+  }
+
+  for (const entry of entries) {
+    const category = getWritingCategory(entry)
+    if (category) items[category].push(toWritingListItem(entry))
+  }
+
+  return items
+}
+
 function isHiddenFromHome(entry: ContentEntry): boolean {
   const path = slugToPath(entry.slug)
-  return path === '/privacy' || path === '/resume' || path === '/blog/all'
+  return path === '/privacy' || path === '/resume' || path.startsWith('/blog/all')
 }
 
 function isBlogPost(entry: ContentEntry): boolean {
@@ -227,7 +272,32 @@ function isBlogIndex(slug: string[]): boolean {
 }
 
 function isBlogAll(slug: string[]): boolean {
-  return slug.length === 2 && slug[0] === 'blog' && slug[1] === 'all'
+  if (slug[0] !== 'blog' || slug[1] !== 'all') return false
+  return slug.length === 2 || getWritingCategoryFromSlug(slug) !== null
+}
+
+function hasWritingCategory(entry: ContentEntry): boolean {
+  return getWritingCategory(entry) !== null
+}
+
+function matchesWritingCategory(
+  entry: ContentEntry,
+  category: WritingCategory | null,
+): boolean {
+  const entryCategory = getWritingCategory(entry)
+  return entryCategory !== null && (!category || entryCategory === category)
+}
+
+function getWritingCategory(entry: ContentEntry): WritingCategory | null {
+  if (isBlogPost(entry)) return 'ai'
+  if (entry.frontmatter.type === 'page' && entry.slug[0] === 'curio') return 'curio'
+  return null
+}
+
+function getWritingCategoryFromSlug(slug: string[]): WritingCategory | null {
+  if (slug.length !== 3 || slug[0] !== 'blog' || slug[1] !== 'all') return null
+  const category = slug[2]
+  return category === 'ai' || category === 'curio' ? category : null
 }
 
 function sortByDate(a: ContentEntry, b: ContentEntry): number {
