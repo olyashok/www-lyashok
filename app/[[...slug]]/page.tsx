@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -86,14 +87,65 @@ export default async function ContentPage({ params }: PageProps) {
         <p className="summary">{entry.frontmatter.summary}</p>
       )}
       <div className="markdown">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{entry.body}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            img: ({ alt, src }) => {
+              const imageSrc = typeof src === 'string' ? src : undefined
+              if (!imageSrc) return null
+
+              return (
+                <a
+                  className="markdown-image-link"
+                  href={imageSrc}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    alt={alt ?? ''}
+                    src={imageSrc}
+                    width={1200}
+                    height={800}
+                    sizes="(max-width: 760px) 100vw, 720px"
+                  />
+                </a>
+              )
+            },
+          }}
+        >
+          {entry.body}
+        </ReactMarkdown>
       </div>
       {recent.length > 0 && (
         <section className="entry-list" aria-label="Recent pages">
           {recent.map((item) => (
-            <div className="entry" key={slugToPath(item.slug)}>
-              <a href={slugToPath(item.slug)}>{item.frontmatter.title}</a>
-              {item.frontmatter.summary && <p>{item.frontmatter.summary}</p>}
+            <div
+              className={`entry${item.frontmatter.image ? '' : ' entry-no-thumb'}`}
+              key={slugToPath(item.slug)}
+            >
+              {item.frontmatter.image && (
+                <a
+                  className="entry-thumb"
+                  href={slugToPath(item.slug)}
+                  aria-label={item.frontmatter.title}
+                >
+                  <Image
+                    src={item.frontmatter.image}
+                    alt=""
+                    fill
+                    sizes="112px"
+                  />
+                </a>
+              )}
+              <div className="entry-copy">
+                {item.frontmatter.date && (
+                  <time dateTime={item.frontmatter.date.toISOString()}>
+                    {formatDate(item.frontmatter.date)}
+                  </time>
+                )}
+                <a href={slugToPath(item.slug)}>{item.frontmatter.title}</a>
+                {item.frontmatter.summary && <p>{item.frontmatter.summary}</p>}
+              </div>
             </div>
           ))}
         </section>
@@ -116,6 +168,14 @@ function sortByDate(a: ContentEntry, b: ContentEntry): number {
     (b.frontmatter.date?.getTime() ?? 0) -
     (a.frontmatter.date?.getTime() ?? 0)
   )
+}
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 }
 
 function formatMeta(entry: ContentEntry): string {
