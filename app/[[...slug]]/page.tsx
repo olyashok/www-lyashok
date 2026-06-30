@@ -56,7 +56,7 @@ export default async function ContentPage({ params }: PageProps) {
 
   return (
     <article className="article">
-      <p className="eyebrow">{formatMeta(entry)}</p>
+      {formatMeta(entry) && <p className="eyebrow">{formatMeta(entry)}</p>}
       <h1>{entry.frontmatter.title}</h1>
       {entry.frontmatter.summary && (
         <p className="summary">{entry.frontmatter.summary}</p>
@@ -91,6 +91,8 @@ function sortByDate(a: ContentEntry, b: ContentEntry): number {
 }
 
 function formatMeta(entry: ContentEntry): string {
+  if (entry.frontmatter.type === 'page') return ''
+
   const parts = []
   if (entry.frontmatter.type) parts.push(entry.frontmatter.type)
   if (entry.frontmatter.date) {
