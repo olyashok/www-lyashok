@@ -25,6 +25,7 @@ const frontmatterSchema = z.object({
   title: z.string().min(1),
   date: dateLike,
   summary: z.string().optional(),
+  image: z.string().optional(),
   type: z.enum(['page', 'post', 'note']).default('page'),
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),

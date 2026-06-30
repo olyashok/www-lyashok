@@ -44,11 +44,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ? ['https://lyashok.com/about']
           : undefined,
       tags: entry.frontmatter.tags,
+      images: entry.frontmatter.image ? [entry.frontmatter.image] : undefined,
     },
     twitter: {
-      card: 'summary',
+      card: entry.frontmatter.image ? 'summary_large_image' : 'summary',
       title: entry.frontmatter.title,
       description: entry.frontmatter.summary,
+      images: entry.frontmatter.image ? [entry.frontmatter.image] : undefined,
     },
   }
 }
@@ -62,11 +64,15 @@ export default async function ContentPage({ params }: PageProps) {
   const entry = await getEntryBySlug(slug)
   if (!entry) notFound()
 
-  const entries = slug.length === 0 ? await listEntries() : []
-  const recent = entries
-    .filter((item) => item.slug.length > 0 && !isHiddenFromHome(item))
+  const entries = slug.length === 0 || isBlogIndex(slug) ? await listEntries() : []
+  const listedEntries = entries
+    .filter((item) =>
+      isBlogIndex(slug)
+        ? item.slug[0] === 'blog' && item.slug.length > 1
+        : item.slug.length > 0 && !isHiddenFromHome(item),
+    )
     .sort(sortByDate)
-    .slice(0, 8)
+  const recent = isBlogIndex(slug) ? listedEntries : listedEntries.slice(0, 8)
 
   return (
     <article className="article">
@@ -95,6 +101,10 @@ export default async function ContentPage({ params }: PageProps) {
 function isHiddenFromHome(entry: ContentEntry): boolean {
   const path = slugToPath(entry.slug)
   return path === '/privacy' || path === '/resume'
+}
+
+function isBlogIndex(slug: string[]): boolean {
+  return slug.length === 1 && slug[0] === 'blog'
 }
 
 function sortByDate(a: ContentEntry, b: ContentEntry): number {
