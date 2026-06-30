@@ -64,6 +64,7 @@ export default async function ContentPage({ params }: PageProps) {
   const entry = await getEntryBySlug(slug)
   if (!entry) notFound()
 
+  const isHome = slug.length === 0
   const entries = slug.length === 0 || isBlogIndex(slug) ? await listEntries() : []
   const listedEntries = entries
     .filter((item) =>
@@ -77,7 +78,7 @@ export default async function ContentPage({ params }: PageProps) {
   return (
     <article className="article">
       {formatMeta(entry) && <p className="eyebrow">{formatMeta(entry)}</p>}
-      <h1>{entry.frontmatter.title}</h1>
+      {!isHome && <h1>{entry.frontmatter.title}</h1>}
       {entry.frontmatter.summary && (
         <p className="summary">{entry.frontmatter.summary}</p>
       )}
