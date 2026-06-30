@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { ConsentAnalytics } from '@/components/consent-analytics'
+import { StructuredData } from '@/components/structured-data'
 import './globals.css'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
@@ -21,6 +22,30 @@ export const metadata: Metadata = {
   },
   description: 'Personal website and writing by Alex Lyashok.',
   alternates: { canonical: '/' },
+  authors: [{ name: 'Alex Lyashok', url: 'https://lyashok.com' }],
+  creator: 'Alex Lyashok',
+  publisher: 'Alex Lyashok',
+  openGraph: {
+    siteName: 'Alex Lyashok',
+    locale: 'en_US',
+    type: 'website',
+    url: '/',
+  },
+  twitter: {
+    card: 'summary',
+    creator: '@alyashok',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  },
 }
 
 export default function RootLayout({
@@ -38,6 +63,7 @@ export default function RootLayout({
             privacyPolicyUrl="/privacy"
           />
         )}
+        <StructuredData />
         <div className="site-shell">
           <a className="skip-link" href="#main">
             Skip to content

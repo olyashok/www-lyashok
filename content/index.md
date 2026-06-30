@@ -1,6 +1,6 @@
 ---
 title: "Alex Lyashok"
-summary: "Building software, finance tools, and AI systems."
+summary: "Alex Lyashok builds software, finance tools, and AI systems."
 type: page
 ---
 

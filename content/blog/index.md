@@ -1,6 +1,6 @@
 ---
 title: "Writing"
-summary: "Notes and essays."
+summary: "Notes and essays by Alex Lyashok."
 type: page
 ---
 

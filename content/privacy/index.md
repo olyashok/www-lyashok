@@ -1,6 +1,6 @@
 ---
-title: "Privacy"
-summary: "Privacy notes for lyashok.com."
+title: "Privacy Policy"
+summary: "Privacy policy for lyashok.com."
 type: page
 ---
 

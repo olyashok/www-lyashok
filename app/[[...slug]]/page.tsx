@@ -35,6 +35,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: entry.frontmatter.summary,
       url: path,
       type: entry.frontmatter.type === 'post' ? 'article' : 'website',
+      publishedTime:
+        entry.frontmatter.type === 'post'
+          ? entry.frontmatter.date?.toISOString()
+          : undefined,
+      authors:
+        entry.frontmatter.type === 'post'
+          ? ['https://lyashok.com/about']
+          : undefined,
+      tags: entry.frontmatter.tags,
+    },
+    twitter: {
+      card: 'summary',
+      title: entry.frontmatter.title,
+      description: entry.frontmatter.summary,
     },
   }
 }

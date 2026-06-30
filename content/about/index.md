@@ -1,5 +1,6 @@
 ---
 title: "About"
+summary: "About Alex Lyashok."
 type: page
 ---
 
