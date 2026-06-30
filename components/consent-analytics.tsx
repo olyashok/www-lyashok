@@ -3,7 +3,6 @@ import {
   configToJs,
   type KlaroConfigOpts,
 } from '@/lib/consent/klaro-config'
-import Script from 'next/script'
 
 export interface ConsentAnalyticsProps extends KlaroConfigOpts {
   measurementId: string
@@ -56,33 +55,29 @@ export function ConsentAnalytics({
 
   return (
     <>
-      <Script
+      <script
         id="ga-consent-default"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: consentDefault }}
       />
-      <Script
+      <script
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="afterInteractive"
+        async
       />
-      <Script
+      <script
         id="ga-init"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: analyticsInit }}
       />
-      <Script
+      <script
         id="klaro-config"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: `window.klaroConfig=${configToJs(klaroConfig)};`,
         }}
       />
-      <Script
+      <script
         id="klaro-ga-bridge"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: klaroBridge }}
       />
-      <Script src={klaroSrc} strategy="afterInteractive" />
+      <script src={klaroSrc} defer />
     </>
   )
 }
