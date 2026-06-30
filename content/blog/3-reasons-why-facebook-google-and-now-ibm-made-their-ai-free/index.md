@@ -2,12 +2,9 @@
 title: "3 reasons why Facebook, Google and now IBM made their AI free"
 date: 2015-11-25
 summary: "Why major technology companies released machine learning projects for free."
-image: "/media/linkedin/3-reasons-why-facebook-google-and-now-ibm-made-their-ai-free/cover.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
-
-![3 reasons why Facebook, Google and now IBM made their AI free](/media/linkedin/3-reasons-why-facebook-google-and-now-ibm-made-their-ai-free/cover.jpg)
 
 Today [IBM joined](http://www.wsj.com/article_email/ibm-turns-up-heat-under-competition-in-artificial-intelligence-1448362800-lMyQjAxMTE1MjIzNDgyMTQxWj) Facebook and Google in making its machine learning project free. So now Torch, TensorFlow, and SystemML are all available to developers under open source licenses.
 
@@ -26,4 +23,3 @@ P.S. Thanks for the comments!
 ["Microsoft open sources Distributed Machine Learning Toolkit for more efficient big data research"](http://blogs.technet.com/b/inside_microsoft_research/archive/2015/11/12/microsoft-open-sources-distributed-machine-learning-toolkit-efficient-big-data-research.aspx)
 
 Originally published on [LinkedIn](https://www.linkedin.com/pulse/3-reasons-why-facebook-google-now-ibm-made-ai-free-alex-lyashok).
-

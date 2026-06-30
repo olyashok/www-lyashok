@@ -232,10 +232,6 @@ h1 {
   padding-top: 16px;
 }
 
-.entry-no-thumb {
-  grid-template-columns: 1fr;
-}
-
 .entry-thumb {
   position: relative;
   display: block;
@@ -246,6 +242,16 @@ h1 {
   border-radius: 6px;
   background: var(--panel);
   text-decoration: none;
+}
+
+.entry-thumb-placeholder::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
+    linear-gradient(45deg, transparent 0 48%, var(--line) 48% 52%, transparent 52%),
+    #f1eee7;
+  content: "";
 }
 
 .entry-thumb img {
@@ -275,6 +281,18 @@ h1 {
   margin: 8px 0 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.all-writing-link {
+  margin: 28px 0 0;
+}
+
+.all-writing-link a {
+  font-weight: 650;
+}
+
+.load-sentinel {
+  height: 1px;
 }
 
 .footer-content {

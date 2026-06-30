@@ -9,6 +9,7 @@ import {
   slugToPath,
   type ContentEntry,
 } from '@/lib/content'
+import { WritingList, type WritingListItem } from '@/components/writing-list'
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>
@@ -69,15 +70,21 @@ export default async function ContentPage({ params }: PageProps) {
   if (!entry) notFound()
 
   const isHome = slug.length === 0
-  const entries = slug.length === 0 || isBlogIndex(slug) ? await listEntries() : []
+  const isWritingIndex = isBlogIndex(slug)
+  const isWritingAll = isBlogAll(slug)
+  const entries =
+    slug.length === 0 || isWritingIndex || isWritingAll ? await listEntries() : []
   const listedEntries = entries
     .filter((item) =>
-      isBlogIndex(slug)
-        ? item.slug[0] === 'blog' && item.slug.length > 1
+      isWritingIndex || isWritingAll
+        ? isBlogPost(item)
         : item.slug.length > 0 && !isHiddenFromHome(item),
     )
     .sort(sortByDate)
-  const recent = isBlogIndex(slug) ? listedEntries : listedEntries.slice(0, 8)
+  const recent = isWritingIndex ? listedEntries.slice(0, 6) : listedEntries.slice(0, 8)
+  const writingItems = (isWritingIndex || isWritingAll)
+    ? listedEntries.map(toWritingListItem)
+    : recent.map(toWritingListItem)
 
   return (
     <article className="article">
@@ -86,81 +93,79 @@ export default async function ContentPage({ params }: PageProps) {
       {entry.frontmatter.summary && (
         <p className="summary">{entry.frontmatter.summary}</p>
       )}
-      <div className="markdown">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            img: ({ alt, src }) => {
-              const imageSrc = typeof src === 'string' ? src : undefined
-              if (!imageSrc) return null
+      {entry.body && (
+        <div className="markdown">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              img: ({ alt, src }) => {
+                const imageSrc = typeof src === 'string' ? src : undefined
+                if (!imageSrc) return null
 
-              return (
-                <a
-                  className="markdown-image-link"
-                  href={imageSrc}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Image
-                    alt={alt ?? ''}
-                    src={imageSrc}
-                    width={1200}
-                    height={800}
-                    sizes="(max-width: 760px) 100vw, 720px"
-                  />
-                </a>
-              )
-            },
-          }}
-        >
-          {entry.body}
-        </ReactMarkdown>
-      </div>
-      {recent.length > 0 && (
-        <section className="entry-list" aria-label="Recent pages">
-          {recent.map((item) => (
-            <div
-              className={`entry${item.frontmatter.image ? '' : ' entry-no-thumb'}`}
-              key={slugToPath(item.slug)}
-            >
-              {item.frontmatter.image && (
-                <a
-                  className="entry-thumb"
-                  href={slugToPath(item.slug)}
-                  aria-label={item.frontmatter.title}
-                >
-                  <Image
-                    src={item.frontmatter.image}
-                    alt=""
-                    fill
-                    sizes="112px"
-                  />
-                </a>
-              )}
-              <div className="entry-copy">
-                {item.frontmatter.date && (
-                  <time dateTime={item.frontmatter.date.toISOString()}>
-                    {formatDate(item.frontmatter.date)}
-                  </time>
-                )}
-                <a href={slugToPath(item.slug)}>{item.frontmatter.title}</a>
-                {item.frontmatter.summary && <p>{item.frontmatter.summary}</p>}
-              </div>
-            </div>
-          ))}
-        </section>
+                return (
+                  <a
+                    className="markdown-image-link"
+                    href={imageSrc}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Image
+                      alt={alt ?? ''}
+                      src={imageSrc}
+                      width={1200}
+                      height={800}
+                      sizes="(max-width: 760px) 100vw, 720px"
+                    />
+                  </a>
+                )
+              },
+            }}
+          >
+            {entry.body}
+          </ReactMarkdown>
+        </div>
+      )}
+      {writingItems.length > 0 && (
+        <WritingList
+          allHref={isWritingIndex ? '/blog/all' : undefined}
+          initialCount={isWritingIndex ? 6 : undefined}
+          items={writingItems}
+          mode={isWritingAll ? 'infinite' : 'static'}
+        />
       )}
     </article>
   )
 }
 
+function toWritingListItem(entry: ContentEntry): WritingListItem {
+  return {
+    path: slugToPath(entry.slug),
+    title: entry.frontmatter.title,
+    summary: entry.frontmatter.summary,
+    date: entry.frontmatter.date?.toISOString(),
+    image: entry.frontmatter.image,
+  }
+}
+
 function isHiddenFromHome(entry: ContentEntry): boolean {
   const path = slugToPath(entry.slug)
-  return path === '/privacy' || path === '/resume'
+  return path === '/privacy' || path === '/resume' || path === '/blog/all'
+}
+
+function isBlogPost(entry: ContentEntry): boolean {
+  return (
+    entry.frontmatter.type === 'post' &&
+    entry.slug[0] === 'blog' &&
+    entry.slug.length > 1
+  )
 }
 
 function isBlogIndex(slug: string[]): boolean {
   return slug.length === 1 && slug[0] === 'blog'
+}
+
+function isBlogAll(slug: string[]): boolean {
+  return slug.length === 2 && slug[0] === 'blog' && slug[1] === 'all'
 }
 
 function sortByDate(a: ContentEntry, b: ContentEntry): number {
@@ -168,14 +173,6 @@ function sortByDate(a: ContentEntry, b: ContentEntry): number {
     (b.frontmatter.date?.getTime() ?? 0) -
     (a.frontmatter.date?.getTime() ?? 0)
   )
-}
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
 }
 
 function formatMeta(entry: ContentEntry): string {
