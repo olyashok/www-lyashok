@@ -1,6 +1,6 @@
 ---
 title: "Words having no translation to English"
-summary: "A running list of words and phrases that do not map cleanly into English."
+summary: "Some words carry context that does not translate cleanly into English."
 date: "2016-04-24"
 type: page
 tags:
