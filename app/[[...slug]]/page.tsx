@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -10,6 +11,8 @@ import {
   type ContentEntry,
 } from '@/lib/content'
 import { WritingList, type WritingListItem } from '@/components/writing-list'
+
+const CURIO_WORDS_PATH = '/curio/words-having-no-translation-to-english'
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>
@@ -125,15 +128,74 @@ export default async function ContentPage({ params }: PageProps) {
           </ReactMarkdown>
         </div>
       )}
-      {writingItems.length > 0 && (
+      {isWritingIndex && writingItems.length > 0 && (
+        <WritingCategorySections items={writingItems} />
+      )}
+      {!isWritingIndex && writingItems.length > 0 && (
         <WritingList
-          allHref={isWritingIndex ? '/blog/all' : undefined}
-          initialCount={isWritingIndex ? 5 : undefined}
           items={writingItems}
           mode={isWritingAll ? 'infinite' : 'static'}
         />
       )}
     </article>
+  )
+}
+
+function WritingCategorySections({ items }: { items: WritingListItem[] }) {
+  return (
+    <div className="writing-sections">
+      <section className="writing-section" aria-labelledby="ai-writing">
+        <div className="section-heading">
+          <h2 id="ai-writing">AI</h2>
+          <Link href="/blog/all">All writing</Link>
+        </div>
+        <div className="card-grid">
+          {items.map((item) => (
+            <WritingCard item={item} key={item.path} />
+          ))}
+        </div>
+      </section>
+      <section className="writing-section" aria-labelledby="curio-writing">
+        <div className="section-heading">
+          <h2 id="curio-writing">Curio</h2>
+        </div>
+        <div className="card-grid">
+          <Link className="writing-card" href={CURIO_WORDS_PATH}>
+            <span className="card-thumb card-thumb-placeholder" />
+            <span className="card-copy">
+              <span className="card-title">
+                Words having no translation to English
+              </span>
+              <span className="card-summary">
+                A small collection of words and phrases that do not map cleanly
+                into English.
+              </span>
+            </span>
+          </Link>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function WritingCard({ item }: { item: WritingListItem }) {
+  return (
+    <Link className="writing-card" href={item.path}>
+      {item.image ? (
+        <span className="card-thumb">
+          <Image src={item.image} alt="" fill sizes="(max-width: 640px) 100vw, 220px" />
+        </span>
+      ) : (
+        <span className="card-thumb card-thumb-placeholder" />
+      )}
+      <span className="card-copy">
+        {item.date && (
+          <time dateTime={item.date}>{formatShortDate(new Date(item.date))}</time>
+        )}
+        <span className="card-title">{item.title}</span>
+        {item.summary && <span className="card-summary">{item.summary}</span>}
+      </span>
+    </Link>
   )
 }
 
@@ -173,6 +235,14 @@ function sortByDate(a: ContentEntry, b: ContentEntry): number {
     (b.frontmatter.date?.getTime() ?? 0) -
     (a.frontmatter.date?.getTime() ?? 0)
   )
+}
+
+function formatShortDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 }
 
 function formatMeta(entry: ContentEntry): string {
