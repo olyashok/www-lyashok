@@ -32,9 +32,6 @@ export function ConsentAnalytics({
   ].join('')
 
   const analyticsInit = [
-    `(function(){var j=document.createElement('script');`,
-    `j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=${measurementId}';`,
-    `document.head.appendChild(j);})();`,
     "window.dataLayer=window.dataLayer||[];",
     'function gtag(){dataLayer.push(arguments);}',
     "gtag('js',new Date());",
@@ -63,6 +60,10 @@ export function ConsentAnalytics({
         id="ga-consent-default"
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: consentDefault }}
+      />
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+        strategy="afterInteractive"
       />
       <Script
         id="ga-init"

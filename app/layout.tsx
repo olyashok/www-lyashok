@@ -16,10 +16,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://lyashok.com'),
   title: {
-    default: 'Oleg Lyashok',
-    template: '%s | Oleg Lyashok',
+    default: 'Alex Lyashok',
+    template: '%s | Alex Lyashok',
   },
-  description: 'Personal website and writing by Oleg Lyashok.',
+  description: 'Personal website and writing by Alex Lyashok.',
   alternates: { canonical: '/' },
 }
 
@@ -45,7 +45,7 @@ export default function RootLayout({
           <header className="site-header">
             <div className="site-inner nav">
               <Link className="brand" href="/">
-                Oleg Lyashok
+                Alex Lyashok
               </Link>
               <nav className="nav-links" aria-label="Primary">
                 <Link href="/blog">Writing</Link>
