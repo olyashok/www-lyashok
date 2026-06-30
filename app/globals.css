@@ -85,6 +85,21 @@ a:hover {
   text-decoration: none;
 }
 
+.social-link {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+}
+
+.social-link svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
 .main {
   padding: 56px 0 72px;
 }

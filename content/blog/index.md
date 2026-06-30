@@ -1,5 +1,7 @@
 ---
 title: "Writing"
-summary: "Posts and notes."
+summary: "Notes and essays."
 type: page
 ---
+
+Occasional notes on software, finance, AI, and the things I am working through.
