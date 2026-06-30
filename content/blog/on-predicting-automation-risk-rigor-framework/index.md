@@ -2,12 +2,12 @@
 title: "On predicting automation: Risk-Rigor framework"
 date: 2025-12-26
 summary: "A framework for thinking about what gets automated next."
-image: "/media/linkedin/on-predicting-automation-risk-rigor-framework/cover.png"
+image: "./cover.png"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![On predicting automation: Risk-Rigor framework](/media/linkedin/on-predicting-automation-risk-rigor-framework/cover.png)
+![On predicting automation: Risk-Rigor framework](./cover.png)
 
 What gets automated next never ceases to surprise people. "AI is generating art but document OCR is not a solved". "AI wins math olympiads but cannot merge two tabs in a spreadsheet".
 
@@ -40,19 +40,19 @@ One way to reason about automation order is to place pre-automation process on a
 - Risk: low-stakes vs high-stakes process. High-stakes manual processes have review/check/approve processes. Truly high-stakes processes have irreversible outcomes and so have multiple layers of human review (anti-money laundering, 6-eyes payment approvals, second opinions).
 - Rigor: low-specificity vs high-specificity process. High-specificity processes make use of domain-specific languages (DSL). Jargon is not DSL. "Legalese" is not DSL. True DSLs are code or near-code languages, are very hard to learn and so exist only in tasks that really cannot be specified differently.
 
-![Image](/media/linkedin/on-predicting-automation-risk-rigor-framework/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 ## Naive automation order
 
 Naive prediction goes like this:
 
-![Image](/media/linkedin/on-predicting-automation-risk-rigor-framework/inline-02.jpg)
+![Image](./inline-02.jpg)
 
 I think the reason that people think this way is mostly because we are trained to think that people who work in "Courtroom" professions tend to study longer or "make more money" and so things they do manually are harder to automate.
 
 ### Actual automation order
 
-![Image](/media/linkedin/on-predicting-automation-risk-rigor-framework/inline-03.jpg)
+![Image](./inline-03.jpg)
 
 Partial automation comes before full automation, so:
 

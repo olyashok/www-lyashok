@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm'
 import {
   getEntryBySlug,
   listEntries,
+  contentAssetUrl,
   slugToPath,
   type ContentEntry,
 } from '@/lib/content'
@@ -34,6 +35,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!entry) return {}
 
   const path = slugToPath(entry.slug)
+  const image = entry.frontmatter.image
+    ? contentAssetUrl(entry.slug, entry.frontmatter.image)
+    : undefined
   const isHome = entry.slug.length === 0
   return {
     title: isHome
@@ -55,13 +59,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ? ['https://lyashok.com/about']
           : undefined,
       tags: entry.frontmatter.tags,
-      images: entry.frontmatter.image ? [entry.frontmatter.image] : undefined,
+      images: image ? [image] : undefined,
     },
     twitter: {
-      card: entry.frontmatter.image ? 'summary_large_image' : 'summary',
+      card: image ? 'summary_large_image' : 'summary',
       title: entry.frontmatter.title,
       description: entry.frontmatter.summary,
-      images: entry.frontmatter.image ? [entry.frontmatter.image] : undefined,
+      images: image ? [image] : undefined,
     },
   }
 }
@@ -110,7 +114,10 @@ export default async function ContentPage({ params }: PageProps) {
             remarkPlugins={[remarkGfm]}
             components={{
               img: ({ alt, src }) => {
-                const imageSrc = typeof src === 'string' ? src : undefined
+                const imageSrc =
+                  typeof src === 'string'
+                    ? contentAssetUrl(entry.slug, src)
+                    : undefined
                 if (!imageSrc) return null
 
                 return (
@@ -234,7 +241,9 @@ function toWritingListItem(entry: ContentEntry): WritingListItem {
     title: entry.frontmatter.title,
     summary: entry.frontmatter.summary,
     date: entry.frontmatter.date?.toISOString(),
-    image: entry.frontmatter.image,
+    image: entry.frontmatter.image
+      ? contentAssetUrl(entry.slug, entry.frontmatter.image)
+      : undefined,
   }
 }
 

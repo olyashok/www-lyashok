@@ -2,7 +2,7 @@
 title: "Top 5 non-practical applications of AI"
 date: 2015-10-04
 summary: "A short list of non-practical applications of artificial intelligence."
-image: "/media/linkedin/top-5-non-practical-applications-of-ai/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
@@ -13,7 +13,7 @@ So it is not that hard to understand why it is difficult for companies to get st
 
 Here are the top list of things to avoid:
 
-1. "It already works in X, let's quickly expand it to Y". Expanding market or process coverage with technology is often an easy, linear thing to do. Make sure that it really is an expansion, not a brand new initiative. Courtesy of XKCD: ![Image](/media/linkedin/top-5-non-practical-applications-of-ai/inline-01.jpg)
+1. "It already works in X, let's quickly expand it to Y". Expanding market or process coverage with technology is often an easy, linear thing to do. Make sure that it really is an expansion, not a brand new initiative. Courtesy of XKCD: ![Image](./inline-01.jpg)
 2. "Let's get 90% automation in our mature, already fully optimized operation". If there is no known room for improvement, Machine Learning likely is not the first thing to consider. Change management is.
 3. "Can it to replace these 3 people we have in this fringe process"? Machine Learning is not about sweeping things that do not matter under the carpet. If it's not a large problem worth solving, likely it won't be worth the investment of time.
 4. "This one report from last week was a big pain for me - can we automate that"? If the problem is not repetitive, it won't have enough data for Machine Learning to work. It probably is also a problem not worth solving with the new approach.

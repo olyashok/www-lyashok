@@ -2,16 +2,16 @@
 title: "On automation: Every 5th Job is Already Forever Human"
 date: 2025-12-27
 summary: "Give or take every 5th person in the world today is paid to be the human that they are."
-image: "/media/linkedin/on-automation-every-5th-job-is-already-forever-human/cover.png"
+image: "./cover.png"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![On automation: Every 5th Job is Already Forever Human](/media/linkedin/on-automation-every-5th-job-is-already-forever-human/cover.png)
+![On automation: Every 5th Job is Already Forever Human](./cover.png)
 
 Give or take every 5th person in the world today is paid to be the human that they are: therapist, judge, shaman, sommeliers, hospice worker, comic, fitness trainer, etc. The number of people in these jobs has been growing every decade:
 
-![Image](/media/linkedin/on-automation-every-5th-job-is-already-forever-human/inline-01.png)
+![Image](./inline-01.png)
 
 Estimates based on occupation data
 
@@ -27,7 +27,7 @@ This is not controversial. Because people prefer to deal with a human and becaus
 
 Share of human@core jobs grows as new entrants are more likely to take these jobs and people who have other jobs gradually shed non-human aspects.
 
-![Image](/media/linkedin/on-automation-every-5th-job-is-already-forever-human/inline-02.png)
+![Image](./inline-02.png)
 
 2035 estimates
 

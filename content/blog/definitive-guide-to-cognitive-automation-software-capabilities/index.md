@@ -2,12 +2,12 @@
 title: "Definitive Guide To Cognitive Automation Software Capabilities"
 date: 2017-07-30
 summary: "A guide to cognitive automation software capabilities."
-image: "/media/linkedin/definitive-guide-to-cognitive-automation-software-capabilities/cover.jpg"
+image: "./cover.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![Definitive Guide To Cognitive Automation Software Capabilities](/media/linkedin/definitive-guide-to-cognitive-automation-software-capabilities/cover.jpg)
+![Definitive Guide To Cognitive Automation Software Capabilities](./cover.jpg)
 
 Confused by all RPA vendors claiming they have cognitive automation? This articles give you a list of key capabilities, explains why they are important, and gives you a list of questions to ask to judge if the vendor claims are true.
 
@@ -75,11 +75,11 @@ Questions to ask:
 
 - Can training be done on a small data set (
 
-![Image](/media/linkedin/definitive-guide-to-cognitive-automation-software-capabilities/inline-01.jpg)
+![Image](./inline-01.jpg)
 
-![Image](/media/linkedin/definitive-guide-to-cognitive-automation-software-capabilities/inline-02.jpg)
+![Image](./inline-02.jpg)
 
-![Image](/media/linkedin/definitive-guide-to-cognitive-automation-software-capabilities/inline-03.jpg)
+![Image](./inline-03.jpg)
 
 Originally published on [LinkedIn](https://www.linkedin.com/pulse/definitive-guide-cognitive-automation-software-alex-lyashok).
 

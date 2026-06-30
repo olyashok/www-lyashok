@@ -2,7 +2,7 @@
 title: "When will ALL jobs be automated?"
 date: 2017-06-04
 summary: "A look at researcher forecasts for high-level machine intelligence."
-image: "/media/linkedin/when-will-all-jobs-be-automated/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
@@ -15,7 +15,7 @@ In this paper 352 researchers answered the question of when will High Level Mach
 
 Here is an aggregate result:
 
-![Image](/media/linkedin/when-will-all-jobs-be-automated/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 Basically, average opinion is that:
 
@@ -30,7 +30,7 @@ June IEEE issue also has an interesting roundup of [expert predictions](http://s
 
 Sum total: it's anyone's guess.
 
-![Image](/media/linkedin/when-will-all-jobs-be-automated/inline-02.jpg)
+![Image](./inline-02.jpg)
 
 Originally published on [LinkedIn](https://www.linkedin.com/pulse/when-all-jobs-automated-alex-lyashok).
 

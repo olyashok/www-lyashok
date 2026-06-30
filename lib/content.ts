@@ -3,7 +3,7 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import { z } from 'zod'
 
-const CONTENT_ROOT = path.join(process.cwd(), 'content')
+export const CONTENT_ROOT = path.join(process.cwd(), 'content')
 
 const dateLike = z
   .union([z.date(), z.string().min(1)])
@@ -41,6 +41,27 @@ export interface ContentEntry {
 
 export function slugToPath(slug: string[]): string {
   return slug.length === 0 ? '/' : `/${slug.join('/')}`
+}
+
+export function contentAssetUrl(slug: string[], source: string): string {
+  if (
+    source.startsWith('/') ||
+    source.startsWith('http://') ||
+    source.startsWith('https://') ||
+    source.startsWith('data:') ||
+    source.startsWith('#')
+  ) {
+    return source
+  }
+
+  const normalized = path.posix.normalize(source.replace(/^\.\//, ''))
+  if (normalized === '.' || normalized.startsWith('../')) {
+    throw new Error(`[content] invalid asset path for ${slugToPath(slug)}: ${source}`)
+  }
+
+  return `/content-assets/${[...slug, ...normalized.split('/')]
+    .map(encodeURIComponent)
+    .join('/')}`
 }
 
 export async function getEntryBySlug(slug: string[]): Promise<ContentEntry | null> {

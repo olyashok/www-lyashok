@@ -2,7 +2,7 @@
 title: "On limits of automation: 20% of Jobs are in ROI Nooks"
 date: 2025-12-28
 summary: "20% of work cannot be automated despite us \"having the technology\" because it cannot be touched by this technology."
-image: "/media/linkedin/on-limits-of-automation-20-of-jobs-are-in-roi-nooks/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
@@ -20,7 +20,7 @@ As technology advances, automation implementation projects get smaller:
 - Reusable modules accumulate → less net-new build → projects become smaller
 - Standards improve → custom integration drops → work splits to small connectors
 
-![Image](/media/linkedin/on-limits-of-automation-20-of-jobs-are-in-roi-nooks/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 NanoBanana!
 
@@ -56,7 +56,7 @@ Just like in during the RPA wave, there are companies already touting the [numbe
 
 Let's compare AI agent TCO to RPA TCO:
 
-![Image](/media/linkedin/on-limits-of-automation-20-of-jobs-are-in-roi-nooks/inline-02.png)
+![Image](./inline-02.png)
 
 Similar comparisons can be done to LCNC tools, etc. Bottom line is that it clearly has benefits and unlocks new value but also clearly not "10x better".
 

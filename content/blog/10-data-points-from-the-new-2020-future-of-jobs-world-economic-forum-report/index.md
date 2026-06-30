@@ -2,7 +2,7 @@
 title: "10 data points from the new \"2020 Future of Jobs\" World Economic Forum report"
 date: 2016-01-19
 summary: "Ten data points from the World Economic Forum Future of Jobs report."
-image: "/media/linkedin/10-data-points-from-the-new-2020-future-of-jobs-world-economic-forum-report/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
@@ -19,7 +19,7 @@ tags: ["ai", "automation"]
 - Artificial intelligence and machine learning is #7 on the list of tech drivers of change
 - AI is viewed as eliminating -1.56% of jobs till 2020
 
-![Image](/media/linkedin/10-data-points-from-the-new-2020-future-of-jobs-world-economic-forum-report/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 ## On Crowdsourcing
 

@@ -2,24 +2,24 @@
 title: "On automation: Full Automation Fallacy"
 date: 2025-12-26
 summary: "Automation level taxonomies going back 50 years all tend to end with \"computer does everything.\""
-image: "/media/linkedin/on-automation-full-automation-fallacy/cover.png"
+image: "./cover.png"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![On automation: Full Automation Fallacy](/media/linkedin/on-automation-full-automation-fallacy/cover.png)
+![On automation: Full Automation Fallacy](./cover.png)
 
 ## Automation level taxonomies
 
 Every automation level taxonomy going back 50 years looks similar: "computer does everything" is the final level:
 
-![Image](/media/linkedin/on-automation-full-automation-fallacy/inline-01.png)
+![Image](./inline-01.png)
 
 Sheridan & Verplank (1978)
 
 Taxonomies got refined over time but final level is always "computer does everything". Here is a version 20 years later:
 
-![Image](/media/linkedin/on-automation-full-automation-fallacy/inline-02.png)
+![Image](./inline-02.png)
 
 Endsley & Kaber (1999)
 
@@ -47,7 +47,7 @@ Those who worry about "But AGI!" should familiarize themselves with ["wicked pro
 
 John Gall (1975) [Systemantics: How Systems Work and Especially How They Fail](https://www.bussigel.com/systemsforplay/wp-content/uploads/2013/12/Systemantics.pdf)
 
-![Image](/media/linkedin/on-automation-full-automation-fallacy/inline-03.png)
+![Image](./inline-03.png)
 
 Theory of Errors
 

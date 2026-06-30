@@ -2,14 +2,14 @@
 title: "9 AI Trends To Look For in 2018 RPA 2.0 Initiatives"
 date: 2017-11-07
 summary: "AI trends that were likely to matter for RPA 2.0 initiatives."
-image: "/media/linkedin/9-ai-trends-to-look-for-in-2018-rpa-2-0-initiatives/cover.jpg"
+image: "./cover.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![9 AI Trends To Look For in 2018 RPA 2.0 Initiatives](/media/linkedin/9-ai-trends-to-look-for-in-2018-rpa-2-0-initiatives/cover.jpg)
+![9 AI Trends To Look For in 2018 RPA 2.0 Initiatives](./cover.jpg)
 
-![Image](/media/linkedin/9-ai-trends-to-look-for-in-2018-rpa-2-0-initiatives/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 We all know that Artificial Intelligence is developing at breakneck speed. But what you may not know, is how these AI technology advancements will benefit your Intelligent Automation or RPA 2.0 programs, making them more powerful and manageable.
 

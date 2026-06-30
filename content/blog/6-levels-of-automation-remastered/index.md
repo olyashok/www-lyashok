@@ -2,7 +2,7 @@
 title: "6 Levels of Automation (Remastered)"
 date: 2017-06-01
 summary: "A remastered version of the six levels of automation framework."
-image: "/media/linkedin/6-levels-of-automation-remastered/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
@@ -11,11 +11,11 @@ This is a remastered version of a popular “6 Level of Automation” [post](htt
 
 It is common knowledge that cars are on their way to become self-driving. Well-understood levels of automation have now become popular in auto industry. These levels are used to measure up competition and are now even used by regulators in US and Europe to steer the evolution of the auto industry. Here are 6 levels of car automation:
 
-![Image](/media/linkedin/6-levels-of-automation-remastered/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 How would these levels look like in Automation world?
 
-![Image](/media/linkedin/6-levels-of-automation-remastered/inline-02.jpg)
+![Image](./inline-02.jpg)
 
 ## Level 0: Manual
 
@@ -43,9 +43,9 @@ This level is still a future state. Cars of the future wont have steering wheels
 
 So there you go: 6 levels of automation:
 
-![Image](/media/linkedin/6-levels-of-automation-remastered/inline-03.jpg)
+![Image](./inline-03.jpg)
 
-![Image](/media/linkedin/6-levels-of-automation-remastered/inline-04.jpg)
+![Image](./inline-04.jpg)
 
 Originally published on [LinkedIn](https://www.linkedin.com/pulse/6-levels-automation-remastered-alex-lyashok).
 

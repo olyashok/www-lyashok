@@ -2,14 +2,14 @@
 title: "Oh, Oh no, and Oh f$%k of Automation"
 date: 2016-12-05
 summary: "A note on how automation markets move from novelty to inevitability."
-image: "/media/linkedin/oh-oh-no-and-oh-f-k-of-automation/inline-01.jpg"
+image: "./inline-01.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
 
 Remember [Larry Ellison and Cloud](http://www.youtube.com/watch?v=0FacYAI6DY0)?
 
-![Image](/media/linkedin/oh-oh-no-and-oh-f-k-of-automation/inline-01.jpg)
+![Image](./inline-01.jpg)
 
 Well, we passed the Oh, f$%k moment for Oracle some time ago when it launched its version of Cloud offerings.
 
@@ -19,7 +19,7 @@ What about automation?
 
 Well it is going through exactly the same.
 
-![Image](/media/linkedin/oh-oh-no-and-oh-f-k-of-automation/inline-02.jpg)
+![Image](./inline-02.jpg)
 
 Follow me on [@alyahsok](http://twitter.com/alyashok)
 

@@ -2,12 +2,12 @@
 title: "5 Great Filters of Automation or why jobs will exist forever"
 date: 2026-01-02
 summary: "Any tech must pass a number of filters to work in practice."
-image: "/media/linkedin/5-great-filters-of-automation-or-why-jobs-will-exist-forever/cover.jpg"
+image: "./cover.jpg"
 type: post
 tags: ["ai", "automation"]
 ---
 
-![5 Great Filters of Automation or why jobs will exist forever](/media/linkedin/5-great-filters-of-automation-or-why-jobs-will-exist-forever/cover.jpg)
+![5 Great Filters of Automation or why jobs will exist forever](./cover.jpg)
 
 Any tech must pass a [number of filters](https://www.svpg.com/four-big-risks/) to work in practice.
 
