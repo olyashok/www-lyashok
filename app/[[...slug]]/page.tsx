@@ -26,8 +26,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!entry) return {}
 
   const path = slugToPath(entry.slug)
+  const isHome = entry.slug.length === 0
   return {
-    title: entry.frontmatter.title,
+    title: isHome
+      ? { absolute: entry.frontmatter.title }
+      : entry.frontmatter.title,
     description: entry.frontmatter.summary,
     alternates: { canonical: path },
     openGraph: {
