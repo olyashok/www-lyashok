@@ -25,7 +25,7 @@ export function ConsentAnalytics({
     "ad_storage:'denied',",
     "ad_user_data:'denied',",
     "ad_personalization:'denied',",
-    "analytics_storage:'denied',",
+    "analytics_storage:'granted',",
     'wait_for_update:500',
     '});',
   ].join('')
@@ -41,7 +41,7 @@ export function ConsentAnalytics({
     '(function(){function attach(){',
     "if(!window.klaro||typeof window.klaro.getManager!=='function'){return setTimeout(attach,100);}",
     'var m=window.klaro.getManager();',
-    "function u(){var c=m.consents['google-analytics']||false;",
+    "function u(){var c=m.consents['google-analytics']!==false;",
     'window.dataLayer=window.dataLayer||[];',
     'function gtag(){dataLayer.push(arguments);}',
     "gtag('consent','update',{",
